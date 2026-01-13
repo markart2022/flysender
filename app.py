@@ -229,9 +229,9 @@ def run_job(job):
 # ----------------------------------
 @app.route("/", methods=["GET","POST"])
 def index():
-    check_token()
-
     if request.method == "POST":
+        check_token()
+
         with lock:
             if len([j for j in jobs.values() if not j["finished"]]) >= MAX_ACTIVE_JOBS:
                 return "Job activ deja"
@@ -269,7 +269,9 @@ def index():
             token=ADMIN_TOKEN
         )
 
+    # GET → NU verificăm token
     return render_template_string(TEMPLATE, token=ADMIN_TOKEN)
+
 
 @app.route("/status/<job_id>")
 def status(job_id):
@@ -307,3 +309,4 @@ def status_json(job_id):
 if __name__ == "__main__":
     port = int(os.getenv("PORT", 8080))
     app.run(host="0.0.0.0", port=port)
+
