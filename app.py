@@ -22,12 +22,12 @@ SMTP_PASS = os.getenv("SMTP_PASS")
 FLASK_SECRET = os.getenv("FLASK_SECRET", "fallback-secret")
 ADMIN_TOKEN = os.getenv("ADMIN_TOKEN")
 
-DELAY_MIN = 60
-DELAY_MAX = 70
+DELAY_MIN = 15
+DELAY_MAX = 25
 
 MAX_ACTIVE_JOBS = 1
 MAX_RECIPIENTS = 300
-MAX_WORKERS = 3
+MAX_WORKERS = 1
 
 if not SMTP_USER or not SMTP_PASS or not ADMIN_TOKEN:
     raise RuntimeError("Missing required ENV vars")
@@ -309,4 +309,5 @@ def status_json(job_id):
 if __name__ == "__main__":
     port = int(os.getenv("PORT", 8080))
     app.run(host="0.0.0.0", port=port)
+
 
